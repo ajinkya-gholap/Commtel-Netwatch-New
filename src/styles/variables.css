@@ -1,0 +1,42 @@
+:root {
+  /* Surfaces */
+  --bg-base: #10141a;
+  --bg-panel: #171c24;
+  --bg-panel-raised: #1e2530;
+  --bg-panel-hover: #232b37;
+  --border-subtle: #262e39;
+  --border-strong: #364154;
+
+  /* Text */
+  --text-primary: #e7ecf2;
+  --text-secondary: #93a0b2;
+  --text-muted: #5f6b7c;
+
+  /* Status semantics */
+  --status-online: #2fd180;
+  --status-online-bg: rgba(47, 209, 128, 0.12);
+  --status-warning: #f5b942;
+  --status-warning-bg: rgba(245, 185, 66, 0.14);
+  --status-critical: #f1553d;
+  --status-critical-bg: rgba(241, 85, 61, 0.14);
+  --status-unknown: #7c8a9e;
+  --status-unknown-bg: rgba(124, 138, 158, 0.14);
+
+  /* Interactive accent */
+  --accent: #4c8dff;
+  --accent-bg: rgba(76, 141, 255, 0.14);
+
+  /* Type */
+  --font-ui: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  /* Spacing / radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+}
