@@ -1,0 +1,32 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-5) var(--space-6);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+}
+
+.clearButton {
+  background: var(--accent);
+  color: #071023;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  font-weight: 600;
+  font-size: 13.5px;
+}
+
+.clearButton:hover {
+  filter: brightness(1.08);
+}
