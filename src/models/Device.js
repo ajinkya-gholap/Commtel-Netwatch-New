@@ -39,7 +39,7 @@ export class Device {
   static fleetStats(devices) {
     const total = devices.length
     const online = devices.filter((d) => d.isOnline).length
-    const warning = devices.filter((d) => d.status === 'warning').length
+    const warning = devices.filter((d) => d.isWarning).length
     const offline = devices.filter((d) => d.isOffline).length
     const attention = devices.filter((d) => d.isCritical).length
     const siteCount = new Set(devices.map((d) => d.site)).size
@@ -59,8 +59,16 @@ export class Device {
     return this.status === 'offline'
   }
 
+  get isWarning() {
+    return this.status === 'warning'
+  }
+
   get isCritical() {
-    return this.isOffline || (this.status === 'warning' && this.alerts >= 2)
+    return this.isOffline || (this.isWarning && this.alerts >= 2)
+  }
+
+  get hasAlerts() {
+    return this.alerts > 0
   }
 
   get isUnderMaintenance() {
@@ -86,8 +94,8 @@ export class Device {
     let score = this.uptimePct
 
     if (this.isOffline) score -= 60
-    if (this.status === 'warning') score -= 15
-    score -= this.alerts * 5
+    if (this.isWarning) score -= 15
+    if (this.hasAlerts) score -= this.alerts * 5
     if (this.isSaturated) score -= 10
     if (this.isFirmwareStale) score -= 8
 
@@ -102,7 +110,7 @@ export class Device {
 
   get statusLabel() {
     if (this.status === 'online') return 'Online'
-    if (this.status === 'warning') return 'Degraded'
+    if (this.isWarning) return 'Degraded'
     if (this.status === 'offline') return 'Offline'
     return 'Unknown'
   }
