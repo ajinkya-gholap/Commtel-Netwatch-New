@@ -9,6 +9,8 @@ import DeviceList from './components/DeviceList.jsx'
 import DeviceDetail from './components/DeviceDetail.jsx'
 import styles from './App.module.css'
 
+
+//query used for search text
 const DEFAULT_FILTERS = { query: '', status: 'all', site: 'all', sort: 'health' }
 
 const devices = Device.fromList(rawDevices)
@@ -32,7 +34,7 @@ export default function App() {
 
   const sortedDevices = [...visibleDevices]
   if (filters.sort === 'health') {
-    sortedDevices.sort((a, b) => a.healthScore - b.healthScore)
+    sortedDevices.sort((a, b) => a.healthScore - b.healthScore)     //sort in assending order
   } else if (filters.sort === 'name') {
     sortedDevices.sort((a, b) => a.name.localeCompare(b.name))
   } else if (filters.sort === 'load') {
