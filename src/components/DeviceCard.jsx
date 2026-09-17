@@ -36,8 +36,8 @@ export default function DeviceCard({ device, isSelected, onSelect }) {
       role="button"
       tabIndex={0}
       onClick={() => onSelect(device.id)}
-      onKeyDown={handleKeyDown}
-    >
+      onKeyDown={handleKeyDown}>
+        
       <div className={styles.card__top}>
         <div>
           <p className={styles.card__name}>{device.name}</p>
