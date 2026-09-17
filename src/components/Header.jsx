@@ -12,7 +12,7 @@ export default function Header({ devices }) {
   return (
     <header className={styles.header}>
       <div className={styles.header__brand}>
-        <span className={styles.header__mark}>NW</span>
+        <span className={styles.header__mark}>CN</span>
         <div>
           <h1 className={styles.header__title}>Commtel NetWatch</h1>
           <p className={styles.header__summary}>{summary}</p>
