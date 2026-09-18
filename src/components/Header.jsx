@@ -13,7 +13,7 @@ export default function Header({ devices }) {
     <header className={styles.header}>
       <div className={styles.header__brand}>
         <span className={styles.header__mark}>
-          <img className={styles.header__mark} src="/download.webp" alt="Site Visit Desk logo" />
+          <img className={styles.header__mark} src="/download.webp" alt="Commtel Netwatch Desk logo" />
         </span>
         <div>
           <h1 className={styles.header__title}>Commtel NetWatch</h1>
