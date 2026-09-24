@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import rawDevices from './data/devices.js'
 import { Device } from './models/Device.js'
 import Header from './components/Header.jsx'
@@ -20,26 +20,30 @@ export default function App() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
   const [selectedId, setSelectedId] = useState(null)
 
-  // Filtering + sorting computed fresh on every render — no filteredDevices
-  // state variable, and the array is copied before sort() since sort()
+  // Filtering + sorting is memoized: it only re-runs when the query, status,
+  // site or sort changes. FilterBar debounces the query, so this doesn't run
+  // on every keystroke. The array is copied before sort() since sort()
   // mutates in place.
-  let visibleDevices = devices.filter((device) => device.matches(filters.query))
+  const sortedDevices = useMemo(() => {
+    let visibleDevices = devices.filter((device) => device.matches(filters.query))
 
-  if (filters.status !== 'all') {
-    visibleDevices = visibleDevices.filter((device) => device.status === filters.status)
-  }
-  if (filters.site !== 'all') {
-    visibleDevices = visibleDevices.filter((device) => device.site === filters.site)
-  }
+    if (filters.status !== 'all') {
+      visibleDevices = visibleDevices.filter((device) => device.status === filters.status)
+    }
+    if (filters.site !== 'all') {
+      visibleDevices = visibleDevices.filter((device) => device.site === filters.site)
+    }
 
-  const sortedDevices = [...visibleDevices]
-  if (filters.sort === 'health') {
-    sortedDevices.sort((a, b) => a.healthScore - b.healthScore)     //sort in assending order
-  } else if (filters.sort === 'name') {
-    sortedDevices.sort((a, b) => a.name.localeCompare(b.name))
-  } else if (filters.sort === 'load') {
-    sortedDevices.sort((a, b) => b.loadPct - a.loadPct)
-  }
+    const sorted = [...visibleDevices]
+    if (filters.sort === 'health') {
+      sorted.sort((a, b) => a.healthScore - b.healthScore)     //sort in assending order
+    } else if (filters.sort === 'name') {
+      sorted.sort((a, b) => a.name.localeCompare(b.name))
+    } else if (filters.sort === 'load') {
+      sorted.sort((a, b) => b.loadPct - a.loadPct)
+    }
+    return sorted
+  }, [filters.query, filters.status, filters.site, filters.sort])
 
   // If the selected device fell out of the visible set, this naturally
   // becomes undefined and the detail panel below stops rendering.

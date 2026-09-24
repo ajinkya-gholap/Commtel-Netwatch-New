@@ -1,14 +1,38 @@
+import { useEffect, useRef, useState } from 'react'
 import styles from './FilterBar.module.css'
 
+const SEARCH_DELAY_MS = 500
+
 export default function FilterBar({ filters, sites, resultCount, isActive, onFilterChange, onReset }) {
+  // The input shows what the user types immediately; the parent only hears
+  // about it once typing has paused for SEARCH_DELAY_MS.
+  const [queryText, setQueryText] = useState(filters.query)
+  const timerRef = useRef(null)
+
+  // Sync from the parent when the query changes from outside (e.g. Reset),
+  // and drop any pending update so it can't re-apply the old text.
+  useEffect(() => {
+    clearTimeout(timerRef.current)
+    setQueryText(filters.query)
+  }, [filters.query])
+
+  useEffect(() => () => clearTimeout(timerRef.current), [])
+
+  const handleQueryChange = (event) => {
+    const value = event.target.value
+    setQueryText(value)
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => onFilterChange('query', value), SEARCH_DELAY_MS)
+  }
+
   return (
     <section className={styles.bar} aria-label="Filter devices">
       <input
         type="text"
         className={styles.bar__search}
         placeholder="Search by name, IP, ID or type…"
-        value={filters.query}
-        onChange={(event) => onFilterChange('query', event.target.value)}
+        value={queryText}
+        onChange={handleQueryChange}
       />
 
       <select
