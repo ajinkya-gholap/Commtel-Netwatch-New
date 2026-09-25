@@ -4,13 +4,10 @@ import styles from './FilterBar.module.css'
 const SEARCH_DELAY_MS = 500
 
 export default function FilterBar({ filters, sites, resultCount, isActive, onFilterChange, onReset }) {
-  // The input shows what the user types immediately; the parent only hears
-  // about it once typing has paused for SEARCH_DELAY_MS.
+ 
   const [queryText, setQueryText] = useState(filters.query)
   const timerRef = useRef(null)
-
-  // Sync from the parent when the query changes from outside (e.g. Reset),
-  // and drop any pending update so it can't re-apply the old text.
+  
   useEffect(() => {
     clearTimeout(timerRef.current)
     setQueryText(filters.query)
